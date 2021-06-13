@@ -17,7 +17,7 @@ pthread_mutex_t buffer_in_mutex = PTHREAD_MUTEX_INITIALIZER;
 // 初始化传入的 buffer 的内存对象
 buffer_data init_buffer() {
   buffer_data buffer_in; // 传入的数据对象
-  buffer_in.ptr  = malloc(MAX_BUFFER_SIZE * sizeof(uint8_t));
+  buffer_in.ptr  = (uint8_t *)malloc(MAX_BUFFER_SIZE * sizeof(uint8_t));
   buffer_in.size = 0;
   return buffer_in;
 }
@@ -55,8 +55,8 @@ int buffer_read(buffer_data *buffer, uint8_t *buf, int buf_size) {
     pthread_mutex_unlock(&buffer_in_mutex); // 解锁线程
     return read;
   }
-  memcpy(buf, buffer->ptr, buf_size); 
-  memmove(buffer->ptr,buffer->ptr+buf_size,buffer->size-buf_size);
+  memcpy(buf, buffer->ptr, buf_size);
+  memmove(buffer->ptr, buffer->ptr + buf_size, buffer->size - buf_size);
   buffer->size -= buf_size;
   pthread_mutex_unlock(&buffer_in_mutex); // 解锁线程
   return buf_size;

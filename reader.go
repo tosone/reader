@@ -10,9 +10,9 @@ import (
 
 func main() {
 	var buffer = C.init_buffer()
-	bytes, _ := ioutil.ReadFile("reader.h.gch")
+	bytes, _ := ioutil.ReadFile("reader.h")
 
-	f, _ := os.Create("reader.out")
+	f, _ := os.Create("reader.h.out")
 	for len(bytes) != 0 {
 		var write = int(C.buffer_append(&buffer, (*C.uchar)(unsafe.Pointer(&bytes[0])), C.int(len(bytes))))
 		bytes = bytes[write:]
